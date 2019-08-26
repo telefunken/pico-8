@@ -4,6 +4,7 @@ __lua__
 function _init()
  g=0.025 --gravity
  make_player()
+ make_ground()
 end
 
 function _update()
@@ -13,9 +14,22 @@ end
 function _draw()
 	cls()
 	draw_stars()
+	draw_ground()
 	draw_player()
 end
 
+
+
+function draw_stars()
+ srand(6)
+ for i=1,70 do
+  pset(rndb(0,127),rndb(0,127),rndb(5,7))
+ end
+ srand(time())
+end
+
+
+-->8
 function make_player()
  p={}
  p.x=60
@@ -69,13 +83,41 @@ end
 function rndb(low,high)
  return flr(rnd(high-low+1)+low)
 end
-
-function draw_stars()
- srand(6)
- for i=1,70 do
-  pset(rndb(0,127),rndb(0,127),rndb(5,7))
+-->8
+function make_ground()
+ gnd={}
+ local top=96 --highest point
+ local btm=120 --lowest point
+ 
+ --landing pad
+ pad={}
+ pad.width=15
+ pad.x=rndb(0,126-pad.width)
+ pad.y=rndb(top,btm)
+ pad.sprite=2
+ 
+ --create ground at pad
+ for i=pad.x,pad.x+pad.width do
+  gnd[i]=pad.y
  end
- srand(time())
+ 
+ --create ground at right
+ for i=pad.x+pad.width+1,127 do
+  local h=rndb(gnd[i-1]-3,gnd[i-1]+3)
+  gnd[i]=mid(top,h,btm)
+ end
+
+ --create ground at left
+ for i=pad.x-1,0,-1 do
+  local h=rndb(gnd[i+1]-3,gnd[i+3]+3)
+  gnd[i]=mid(top,h,btm)
+ end 
+end
+
+function draw_ground()
+ for i=0,127 do
+  line(i,gnd[i],i,127,5)
+ end
 end
 __gfx__
 0000000000cccc000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
