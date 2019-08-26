@@ -12,6 +12,7 @@ end
 
 function _draw()
 	cls()
+	draw_stars()
 	draw_player()
 end
 
@@ -63,6 +64,18 @@ function stay_on_screen()
   p.y=4
   p.dy=0
  end
+end
+
+function rndb(low,high)
+ return flr(rnd(high-low+1)+low)
+end
+
+function draw_stars()
+ srand(6)
+ for i=1,70 do
+  pset(rndb(0,127),rndb(0,127),rndb(5,7))
+ end
+ srand(time())
 end
 __gfx__
 0000000000cccc000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
