@@ -37,16 +37,33 @@ function move_player()
  --move
  p.x+=p.dx 
  p.y+=p.dy
+
+ stay_on_screen()
 end
 
 function thrust()
- if(btn(0)) p.dx-=p.thrust
- if(btn(1)) p.dx+=p.thrust
- if(btn(2)) p.dy-=p.thrust
+ if (btn(0)) p.dx-=p.thrust
+ if (btn(1)) p.dx+=p.thrust
+ if (btn(2)) p.dy-=p.thrust
  
  --sound
  if (btnp(0) or btn(1) or btn(2)) sfx(0)
 end 
+
+function stay_on_screen()
+ if (p.x<0) then --left side
+  p.x=4
+  p.dx=0
+ end
+ if (p.x>119) then --right side
+  p.x=115
+  p.dx=0
+ end
+ if (p.y<0) then --top side
+  p.y=4
+  p.dy=0
+ end
+end
 __gfx__
 0000000000cccc000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000000000ccc67c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
