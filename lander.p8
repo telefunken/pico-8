@@ -13,6 +13,8 @@ function _update()
  if (not gave_over) then
   move_player()
   check_land()
+ else
+  if (btnp(5)) _init()
  end
 end
 
@@ -21,6 +23,13 @@ function _draw()
 	draw_stars()
 	draw_ground()
 	draw_player()
+	
+	if (game_over) then
+	 if (win) then
+	  print("victory!", 48,48,11)
+	 end
+	 print("press ❎ to play again",20,70,5)
+ end
 end
 
 
@@ -136,19 +145,19 @@ function check_land()
  r_x=flr(p.x+7) --right side of ship
  b_y=flr(p.y+7) --bottom of ship
 
- over_pad=l_x>pad.x and r_x<=pad.x+pad.width
+ over_pad=l_x>=pad.x and r_x<=pad.x+pad.width
  on_pad=b_y>=pad.y-1
  slow=p.dy<1
- 
- if(over_pad and on_pad and slow) then
+
+ if (over_pad and on_pad and slow) then
   end_game(true)
  elseif (over_pad and on_pad) then
   end_game(false)
  else
   for i=l_x,r_x do
    if (gnd[i]<=b_y) end_game(false)
-  end 
- end 
+  end
+ end
 end
 
 function end_game(won)
