@@ -14,6 +14,13 @@ ballsize=3
 ballxdir=5
 ballydir=-3
 
+-- first brick
+brickx=15
+bricky=20
+brickw=18
+brickh=4
+
+
 score=0
 lives=3
 
@@ -73,12 +80,20 @@ function bouncepaddle()
 	end
 end
 
+function bouncebrick()
+	if ballx==brickx and
+		bally==bricky then
+		sfx(0)
+		ballydir=-ballydir
+	end
+end
+
 function drawbricks()
-	x=15
-	y=20
-	width=18
-	height=4
 	spacing=2
+	x=brickx
+	y=bricky
+	width=brickw
+	height=brickh
 	for i=0,4 do 
 	 rectfill(x,y,x+width,y+height, 06) 
   x=x+spacing+width
@@ -89,6 +104,7 @@ function _update()
 	movepaddle()
  bounceball() 
  bouncepaddle()
+ bouncebrick()
  moveball()
  lostdeadball()
  
