@@ -73,6 +73,18 @@ function bouncepaddle()
 	end
 end
 
+function drawbricks()
+	x=15
+	y=20
+	width=18
+	height=4
+	spacing=2
+	for i=0,4 do 
+	 rectfill(x,y,x+width,y+height, 06) 
+  x=x+spacing+width
+ end
+end
+
 function _update()
 	movepaddle()
  bounceball() 
@@ -93,6 +105,8 @@ function _draw()
 	print(score,100,6,15)
 	-- draw paddle
 	rectfill(padx,pady, padx+padw,pady+padh, 15)
+ -- draw bricks
+ drawbricks()
  -- draw ball
  circfill(ballx,bally,ballsize,15)
 end
