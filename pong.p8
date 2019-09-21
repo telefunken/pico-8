@@ -14,6 +14,8 @@ ballsize=3
 ballxdir=5
 ballydir=-3
 
+score=0
+
 function movepaddle()
 	if btn (0) then
 		padx-=3
@@ -57,6 +59,7 @@ function bouncepaddle()
 		ballx<=padx+padw and
 		bally>pady-padh-2 then
 		sfx(0)
+  score+=10
 		ballydir=-ballydir
 	end
 end
@@ -71,11 +74,13 @@ function _update()
 end
 
 function _draw()
-	-- clear the screen
+	-- clear screen
 	rectfill(0,0, 128,128, 3)
-	-- draw the paddle
+	-- draw score
+	print(score,100,6,15)
+	-- draw paddle
 	rectfill(padx,pady, padx+padw,pady+padh, 15)
- -- draw the ball
+ -- draw ball
  circfill(ballx,bally,ballsize,15)
 end
 __gfx__
