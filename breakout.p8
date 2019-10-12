@@ -13,20 +13,38 @@ pad = {
 ball = {
 	x=64,
 	y=64,
-	size=3,
+	size=2,
 	xdir=5,
 	ydir=-3
 }
 
 -- first brick
-brickx=15
-bricky=20
-brickw=18
-brickh=4
+brick = {
+	x=1,
+	y=20,
+	w=12,
+	h=2,
+	spacing=2
+}
 
+brick_rows = 4
+brick_columns = 9
 
 score=0
 lives=3
+
+
+bricks = {}
+for col = 1, brick_rows do
+ brickx=brick.x
+ bricks[col] = {}
+ brick.y=brick.y+brick.h*2 
+ for row = 1, brick_columns do
+  bricks[col][row] = {x = brickx, y = brick.y}
+  brickx=brickx+brick.spacing+brick.w
+  end
+end
+
 
 function movepad()
 	if btn (0) then
@@ -93,14 +111,10 @@ function bouncebrick()
 end
 
 function drawbricks()
-	spacing=2
-	x=brickx
-	y=bricky
-	width=brickw
-	height=brickh
-	for i=0,4 do 
-	 rectfill(x,y,x+width,y+height, 06) 
-  x=x+spacing+width
+	for i=1,brick_rows do
+	 for m=1,brick_columns do	  
+	  rectfill(bricks[i][m].x,bricks[i][m].y,bricks[i][m].x+brick.w,bricks[i][m].y+brick.h, 06) 
+  end
  end
 end
 
