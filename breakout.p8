@@ -12,16 +12,16 @@ pad = {
 -- ball
 ball = {
 	x=64,
-	y=64,
+	y=44,
 	size=2,
 	xdir=5,
-	ydir=-3
+	ydir=3
 }
 
 -- first brick
 brick = {
-	x=1,
-	y=20,
+	x=1, --offset
+	y=20,--offset
 	w=12,
 	h=2,
 	spacing=2
@@ -35,14 +35,11 @@ lives=3
 
 
 bricks = {}
-for col = 1, brick_rows do
- brickx=brick.x
- bricks[col] = {}
- brick.y=brick.y+brick.h*2 
- for row = 1, brick_columns do
-  bricks[col][row] = {x = brickx, y = brick.y}
-  brickx=brickx+brick.spacing+brick.w
-  end
+for c = 0, brick_columns-1 do
+ bricks[c] = {}
+ for r = 0, brick_rows-1 do
+  bricks[c][r] = {x = 0, y = 0, hit = 0, col = 06}
+ end
 end
 
 
@@ -63,12 +60,12 @@ function lostdeadball()
  if ball.y>128 then
   if lives>0 then
    sfx(3)
-   ball.y=24
+   ball.y=44
    lives-=1
   else
    ball.ydir=0
    ball.xdir=0
-   ball.y=64
+   ball.y=44 --remove?
    sfx(4)
   end
  end
@@ -103,17 +100,35 @@ function bouncepad()
 end
 
 function bouncebrick()
-	if ball.x==brickx and
-		ball.y==bricky then
-		sfx(0)
-		ball.ydir=-ball.ydir
-	end
+	for c=0,brick_columns-1 do
+	 for r=0,brick_rows-1 do
+	  b = bricks[c][r]	  
+			if b.hit == 0 then
+			 if  ball.x > b.x 
+ 			 and ball.x < b.x+brick.w 
+	 		 and ball.y >= b.y 
+		 	 and ball.y-2 <= b.y+brick.h*2
+				then
+				 sfx(0)
+				 ball.ydir=-ball.ydir
+			  b.hit = 1
+			 end
+  end
+  end
+ end
 end
 
+
 function drawbricks()
-	for i=1,brick_rows do
-	 for m=1,brick_columns do	  
-	  rectfill(bricks[i][m].x,bricks[i][m].y,bricks[i][m].x+brick.w,bricks[i][m].y+brick.h, 06) 
+	for c=0,brick_columns-1 do
+	 for r=0,brick_rows-1 do	  
+	  if bricks[c][r].hit == 0 then
+ 			brickx = (c*(brick.w+brick.spacing))+brick.x;
+    bricky = (r*(brick.h+brick.spacing))+brick.y;
+ 	  bricks[c][r].x = brickx
+ 	  bricks[c][r].y = bricky
+ 	  rectfill(brickx,bricky,brickx+brick.w,bricky+brick.h, bricks[c][r].col) 
+	  end
   end
  end
 end
