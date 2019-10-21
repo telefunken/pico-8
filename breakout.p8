@@ -143,7 +143,6 @@ function _update()
  bouncebrick()
  moveball()
  lostdeadball()
- 
 end
 
 function _draw()
